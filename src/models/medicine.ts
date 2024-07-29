@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from "typeorm"
 import * as shortid from "shortid";
 
 @Entity()
-export class medicine{
+export class Medicine{
     @PrimaryColumn({ type: "varchar", default: shortid.generate() })
     id : string
 
