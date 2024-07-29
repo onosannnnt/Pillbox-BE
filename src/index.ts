@@ -3,13 +3,18 @@ import { AppDataSource } from "./data-source"
 import * as express from "express"
 import * as cors from "cors"
 
+import userRouter from "./routes/user"
+
 const app = express()
+app.use(express.json())
 app.use(cors(
     {
         origin: 'http://localhost:5173',
         credentials: true
     }
 ))
+
+app.use("/user", userRouter)
 
 AppDataSource.initialize().then(async () => {
     app.listen(port, () => {
