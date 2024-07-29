@@ -2,11 +2,13 @@ import { host, port } from "./config/database"
 import { AppDataSource } from "./data-source"
 import * as express from "express"
 import * as cors from "cors"
+import * as cookieParser from "cookie-parser"
 
 import userRouter from "./routes/user"
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 app.use(cors(
     {
         origin: 'http://localhost:5173',
