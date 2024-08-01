@@ -4,7 +4,7 @@ import { register } from "../controllers/auth/register";
 import { login } from "../controllers/auth/login";
 import { logout } from "../controllers/auth/logout";
 import { isExist } from "../middleware/auth";
-import { addHistory } from "../controllers/user/action/addhistory";
+import { addHistory } from "../controllers/user/addhistory";
 const router = Router()
 
 router.get("/", (req, res) => {
@@ -15,6 +15,6 @@ router.post("/register", register)
 router.post("/login",login)
 router.get("/logout", isExist, logout)
 
-router.post("/addhistory", isExist, addHistory)
+router.post("/addHistory", isExist, addHistory)
 
 export default router
