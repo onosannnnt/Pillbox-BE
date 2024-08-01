@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
+import { LogHistory } from "./loghistory"
 import * as shortid from "shortid";
 
 @Entity()
@@ -14,4 +15,7 @@ export class Medicine{
 
     @Column()
     note : string
+
+    @OneToMany(() => LogHistory, logHistory => logHistory.medicine)
+    logHistories : LogHistory[]
 }

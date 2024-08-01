@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
+import { LogHistory } from "./loghistory"
 import * as shortid from "shortid"
 
 @Entity()
@@ -23,4 +24,7 @@ export class User {
 
     @Column()
     numberOfPillChannels: number
+
+    @OneToMany(() => LogHistory, logHistory => logHistory.user)
+    logHistories: LogHistory[]
 }
