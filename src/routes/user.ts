@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import { register } from "../controllers/user/register";
-import { login } from "../controllers/user/login";
-import { logout } from "../controllers/user/logout";
+import { register } from "../controllers/user/auth/register";
+import { login } from "../controllers/user/auth/login";
+import { logout } from "../controllers/user/auth/logout";
 import { isExist } from "../middleware/auth";
 const router = Router()
 
