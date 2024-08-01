@@ -16,6 +16,9 @@ export class Medicine{
     @Column()
     note : string
 
+    @Column()
+    img : string
+
     @OneToMany(() => LogHistory, logHistory => logHistory.medicine)
     logHistories : LogHistory[]
 }
