@@ -5,6 +5,7 @@ import * as cors from "cors"
 import * as cookieParser from "cookie-parser"
 
 import userRouter from "./routes/user"
+import adminRouter from "./routes/admin"
 
 const app = express()
 app.use(express.json())
@@ -17,6 +18,7 @@ app.use(cors(
 ))
 
 app.use("/user", userRouter)
+app.use("/admin", adminRouter)
 
 AppDataSource.initialize().then(async () => {
     app.listen(port, () => {
