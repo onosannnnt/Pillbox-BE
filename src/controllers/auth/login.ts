@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { AppDataSource } from '../../../data-source';
-import { User } from '../../../models/user';
+import { AppDataSource } from '../../data-source';
+import { User } from '../../models/user';
 import * as bcrypt from 'bcrypt';
-import { cookiesConfig, jwtSecret } from '../../../config/auth';
+import { cookiesConfig, jwtSecret } from '../../config/auth';
 import * as jwt from 'jsonwebtoken';
 
 export const login = async (req: Request, res: Response) => {
