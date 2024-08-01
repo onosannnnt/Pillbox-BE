@@ -5,7 +5,7 @@ import { login } from "../controllers/auth/login";
 import { logout } from "../controllers/auth/logout";
 import { isExist } from "../middleware/auth";
 import { addHistory } from "../controllers/user/addhistory";
-import { getUserLineID } from "../controllers/auth/getuserlineid";
+import { getUserData } from "../controllers/auth/getUserData";
 const router = Router()
 
 router.get("/", (req, res) => {
@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 router.post("/register", register)
 router.post("/login",login)
 router.get("/logout", isExist, logout)
-router.get("/getUserLineID", getUserLineID)
+router.get("/getUserData", getUserData)
 
 router.post("/addHistory", isExist, addHistory)
 
