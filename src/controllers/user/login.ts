@@ -8,16 +8,16 @@ import * as jwt from 'jsonwebtoken';
 export const login = async (req: Request, res: Response) => {
     const { emailOrUsername, password } = req.body;
     if (!emailOrUsername || !password) {
-        return res.status(400).json({ message: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
+        return res.status(400).json({ message: 'กรอกข้อมูลไม่ครบถ้วน' });
     }
     try{
         const user = await AppDataSource.getRepository(User).findOne({ where: [{ email: emailOrUsername }, { username: emailOrUsername }] });
         if (!user) {
-            return res.status(404).json({ message: 'ไม่พบผู้ใช้' });
+            return res.status(404).json({ message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง' });
         }
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(400).json({ message: 'ชื่อผู้ใช้งานรหัสผ่านไม่ถูกต้อง' });
+            return res.status(400).json({ message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง' });
         }
         const payload = {
             id: user.id,
