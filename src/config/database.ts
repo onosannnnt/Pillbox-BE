@@ -1,3 +1,7 @@
+import * as dotenv from 'dotenv'
+
+dotenv.config()
+
 export const port: number = Number(process.env.PORT)
 export const host: string = process.env.HOST
 export const dbPort: number = Number(process.env.DB_PORT)
