@@ -14,8 +14,9 @@ export class UserController {
 
   getUserData = async (req: Request, res: Response) => {
     const { emailOrUsername } = req.body
-    try {
+    try { 
       const user = await this.userRepository.findOne({
+        select: ['id', 'email', 'username', 'role', 'lineID', 'numberOfPillChannels'],
         where: [{ email: emailOrUsername }, { username: emailOrUsername }]
       })
       if (!user) {

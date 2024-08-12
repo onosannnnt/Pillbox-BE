@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 router.post('/register', userController.register)
 router.post('/login', userController.login)
 router.get('/logout', isExist, userController.logout)
-router.get('/getUserData', userController.getUserData)
+router.get('/:emailOrUsername', userController.getUserData)
 
 router.post('/addHistory', isExist, addHistory)
 
