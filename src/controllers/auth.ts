@@ -14,7 +14,7 @@ export class UserController {
 
   getUserData = async (req: Request, res: Response) => {
     const { emailOrUsername } = req.body
-    try { 
+    try {
       const user = await this.userRepository.findOne({
         select: ['id', 'email', 'username', 'role', 'lineID', 'numberOfPillChannels'],
         where: [{ email: emailOrUsername }, { username: emailOrUsername }]
@@ -42,7 +42,7 @@ export class UserController {
       }
       const isPasswordValid = await bcrypt.compare(password, user.password)
       if (!isPasswordValid) {
-        return res.status(400).json({ message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง' })
+        return res.status(401).json({ message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง' })
       }
       const payload = {
         id: user.id,
