@@ -5,6 +5,7 @@ import { AppDataSource } from '../data-source'
 import { User } from '../models/user'
 import { cookiesConfig, jwtSecret, salt } from '../config/auth'
 import { Repository } from 'typeorm'
+import { USER_ID } from '../config/constance'
 
 export class UserController {
   private userRepository: Repository<User>
@@ -45,10 +46,7 @@ export class UserController {
         return res.status(401).json({ message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง' })
       }
       const payload = {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        role: user.role
+        id: user.id
       }
       const token = jwt.sign(payload, jwtSecret, { algorithm: 'HS256' })
       return res.cookie('token', token, cookiesConfig).json({ message: 'เข้าสู่ระบบสำเร็จ' })
@@ -80,13 +78,21 @@ export class UserController {
       user.numberOfPillChannels = numberOfPillChannels
       await this.userRepository.save(user)
       const payload = {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        role: user.role
+        id: user.id
       }
       const token = jwt.sign(payload, jwtSecret, { algorithm: 'HS256' })
       return res.cookie('token', token, cookiesConfig).json({ message: 'สร้างบัญชีผู้ใช้สำเร็จ' })
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  me = async (req: Request, res: Response) => {
+    try {
+      const user = await this.userRepository.findOne({
+        select: ['email', 'username', 'role', 'lineID', 'numberOfPillChannels'],
+        where: { id: req[USER_ID] }
+      })
+      return res.json(user)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }

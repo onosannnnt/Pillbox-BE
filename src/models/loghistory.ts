@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, ManyToOne } from 'typeorm'
+import { Entity, PrimaryColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm'
 import { User } from './user'
 import * as shortid from 'shortid'
 import { Medicine } from './medicine'
@@ -11,7 +11,7 @@ export class LogHistory {
   @Column()
   task: string
 
-  @Column()
+  @CreateDateColumn({ name: 'CREATED_AT', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
   @ManyToOne(() => User, (user) => user.logHistories)
