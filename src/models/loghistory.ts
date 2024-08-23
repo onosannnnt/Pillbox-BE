@@ -1,11 +1,12 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm'
 import { User } from './user'
-import * as shortid from 'shortid'
 import { Medicine } from './medicine'
 
 @Entity()
 export class LogHistory {
-  @PrimaryColumn({ type: 'varchar', default: shortid.generate() })
+  @PrimaryGeneratedColumn('uuid', {
+    name: 'ID'
+  })
   id: string
 
   @Column()
