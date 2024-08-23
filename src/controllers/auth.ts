@@ -64,10 +64,17 @@ export class UserController {
   }
 
   register = async (req: Request, res: Response) => {
-    const { email, username, password, lineID, role, numberOfPillChannels } = req.body
-    if (!email || !username || !password || !lineID || !role || !numberOfPillChannels) {
+    const { email, username, password, role } = req.body
+    if (!email || !username || !password || !role) {
       return res.status(400).json({ message: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
     }
+    if (role === 'user' && !req.body.lineID && !req.body.numberOfPillChannels) {
+      return res.status(400).json({ message: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
+    } else if (role === 'admin') {
+      req.body.lineID = ''
+      req.body.numberOfPillChannels = 0
+    }
+    const { lineID, numberOfPillChannels } = req.body
     try {
       const user = new User()
       user.email = email
