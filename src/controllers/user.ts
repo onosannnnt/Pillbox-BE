@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { AppDataSource } from '../../data-source'
-import { LogHistory } from '../../models/loghistory'
+import { AppDataSource } from '../data-source'
+import { LogHistory } from '../models/loghistory'
 import { Repository } from 'typeorm'
-import { USER_ID } from '../../config/constance'
+import { USER_ID } from '../config/constance'
 
-export class History {
+export class User {
   private logRepository: Repository<LogHistory>
   constructor() {
     this.logRepository = AppDataSource.getRepository(LogHistory)

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { AppDataSource } from '../../data-source'
-import { Medicine } from '../../models/medicine'
+import { AppDataSource } from '../data-source'
+import { Medicine } from '../models/medicine'
 
 export class Admin {
   private medicineRepository = AppDataSource.getRepository(Medicine)

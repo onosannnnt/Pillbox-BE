@@ -1,4 +1,4 @@
-import { Admin } from './../controllers/admin/addmedicine'
+import { Admin } from '../controllers/admin'
 import { Router } from 'express'
 import { middleware } from '../middleware/auth'
 

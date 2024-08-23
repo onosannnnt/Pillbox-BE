@@ -7,7 +7,7 @@ import { cookiesConfig, jwtSecret, salt } from '../config/auth'
 import { Repository } from 'typeorm'
 import { USER_ID } from '../config/constance'
 
-export class UserController {
+export class Auth {
   private userRepository: Repository<User>
   constructor() {
     this.userRepository = AppDataSource.getRepository(User)
