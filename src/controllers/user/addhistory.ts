@@ -11,12 +11,12 @@ export class History {
   }
 
   addHistory = async (req: Request, res: Response) => {
-    const { task, medicineID } = req.body
+    const { task, medicine } = req.body
     try {
       const log = new LogHistory()
       log.task = task
       log.user = req[USER_ID]
-      log.medicine = medicineID
+      log.medicine = medicine
       await this.logRepository.save(log)
       return res.json({ message: 'เพิ่มประวัติการใช้ยาสำเร็จ' })
     } catch (error) {
