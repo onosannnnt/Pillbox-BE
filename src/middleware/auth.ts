@@ -10,6 +10,7 @@ export class middleware {
   constructor() {
     this.userRepository = AppDataSource.getRepository(User)
   }
+
   isExist = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token
     if (!token) {
@@ -30,6 +31,7 @@ export class middleware {
       return res.status(401).json({ message: 'กรุณาเข้าสู่ระบบ', error: error.message })
     }
   }
+
   isAdmin = (req: Request, res: Response, next: NextFunction) => {
     try {
       if (req[ROLE_TYPE] !== 'admin') {

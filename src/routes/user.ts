@@ -18,6 +18,7 @@ router.get('/logout', Middleware.isExist, AuthController.logout)
 router.get('/pillboxLogin/:emailOrUsername', AuthController.getUserData)
 router.get('/me', Middleware.isExist, AuthController.me)
 
-router.post('/addHistory', Middleware.isExist, UserController.addHistory)
+router.post('/addHistory', UserController.addHistory)
+router.get('/getHistory', Middleware.isExist, UserController.getHistory)
 
 export default router

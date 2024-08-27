@@ -12,7 +12,7 @@ export class LogHistory {
   @Column()
   task: string
 
-  @CreateDateColumn({ name: 'CREATED_AT', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  @CreateDateColumn({ name: 'CREATED_AT', type: 'timestamp with time zone', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
   @ManyToOne(() => User, (user) => user.logHistories)

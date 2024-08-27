@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, ManyToMany, OneToMany } from 'typeorm'
 import { User } from './user'
 import { Medicine } from './medicine'
 
@@ -15,6 +15,6 @@ export class pillChannel {
   @ManyToOne(() => User, (user) => user.pillChannels)
   user: User
 
-  @ManyToOne(() => Medicine, (medicine) => medicine.pillChannels)
+  @OneToMany(() => Medicine, (medicine) => medicine.pillChannels)
   medicine: Medicine
 }

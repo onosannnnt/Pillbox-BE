@@ -11,14 +11,36 @@ export class User {
   }
 
   addHistory = async (req: Request, res: Response) => {
-    const { task, medicine } = req.body
+    const { task, medicine, userID } = req.body
     try {
       const log = new LogHistory()
       log.task = task
-      log.user = req[USER_ID]
+      log.user = userID
       log.medicine = medicine
       await this.logRepository.save(log)
       return res.json({ message: 'เพิ่มประวัติการใช้ยาสำเร็จ' })
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+
+  getHistory = async (req: Request, res: Response) => {
+    try {
+      const userID = req[USER_ID]
+      const logs = await this.logRepository.find({
+        where: {
+          user: {
+            id: userID
+          }
+        },
+        relations: {
+          medicine: true
+        },
+        order: {
+          createdAt: 'DESC'
+        }
+      })
+      return res.json(logs)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
