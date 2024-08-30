@@ -56,26 +56,13 @@ export class Pillbox {
   hardwareGetPillChannel = async (req: Request, res: Response) => {
     const { userID } = req.params
     try {
-      const pillChannels = await this.pillChannelRepository.find({
-        where: {
-          user: {
-            id: userID
-          }
-        },
-        relations: {
-          medicine: true
-        }
-      })
-      const times = await this.timeRepository.find({
-        where: {
-          pillChannel: {
-            user: {
-              id: userID
-            }
-          }
-        }
-      })
-      return res.json({ pillChannels, times })
+      const pillData = await this.pillChannelRepository
+        .createQueryBuilder('pillChannel')
+        .leftJoinAndSelect('pillChannel.medicine', 'medicine')
+        .leftJoinAndSelect('pillChannel.times', 'time')
+        .where('pillChannel.user = :userID', { userID })
+        .getMany()
+      return res.json(pillData)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
