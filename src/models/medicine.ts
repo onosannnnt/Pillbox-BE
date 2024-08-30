@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, ManyToOne, OneToOne } from 'typeorm'
 import { LogHistory } from './loghistory'
-import { pillChannel } from './pillChannel'
+import { PillChannel } from './pillChannel'
 
 @Entity()
 export class Medicine {
@@ -24,6 +24,6 @@ export class Medicine {
   @OneToMany(() => LogHistory, (logHistory) => logHistory.medicine)
   logHistories: LogHistory[]
 
-  @ManyToOne(() => pillChannel, (pillChannel) => pillChannel.medicine)
-  pillChannels: pillChannel[]
+  @OneToMany(() => PillChannel, (pillChannel) => pillChannel.medicine)
+  pillChannels: PillChannel[]
 }

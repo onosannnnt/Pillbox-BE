@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { LogHistory } from './loghistory'
-import { pillChannel } from './pillChannel'
+import { PillChannel } from './pillChannel'
 
 @Entity()
 export class User {
@@ -30,6 +30,6 @@ export class User {
   @OneToMany(() => LogHistory, (logHistory) => logHistory.user)
   logHistories: LogHistory[]
 
-  @OneToMany(() => pillChannel, (pillChannel) => pillChannel.user)
-  pillChannels: pillChannel[]
+  @OneToMany(() => PillChannel, (pillChannel) => pillChannel.user)
+  pillChannels: PillChannel[]
 }
