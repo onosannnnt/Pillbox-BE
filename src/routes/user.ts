@@ -2,7 +2,7 @@ import { Auth } from './../controllers/auth'
 import { middleware } from './../middleware/auth'
 import { Router } from 'express'
 import { User } from '../controllers/user'
-import { Pillbox } from '../controllers/Pillbox'
+import { Pillbox } from '../controllers/pillbox'
 const router = Router()
 
 const AuthController = new Auth()
