@@ -66,7 +66,16 @@ export class Pillbox {
           medicine: true
         }
       })
-      return res.json(pillChannels)
+      const times = await this.timeRepository.find({
+        where: {
+          pillChannel: {
+            user: {
+              id: userID
+            }
+          }
+        }
+      })
+      return res.json({ pillChannels, times })
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
