@@ -1,4 +1,4 @@
-import { host, port } from './config/database'
+import { databaseUrl, host, port } from './config/database'
 import { AppDataSource } from './data-source'
 import * as express from 'express'
 import * as cors from 'cors'
