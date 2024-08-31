@@ -26,5 +26,6 @@ router.get('/getHistory', Middleware.isExist, UserController.getHistory)
 router.post('/addPillChannel', PillboxController.addPillChannel)
 router.get('/getPillChannels', Middleware.isExist, PillboxController.getPillChannel)
 router.get('/hardwareGetPillChannels/:userID', PillboxController.hardwareGetPillChannel)
+router.put('/userTakePill/:pillChannelID', PillboxController.takePill)
 
 export default router
