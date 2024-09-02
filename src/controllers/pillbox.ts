@@ -88,4 +88,18 @@ export class Pillbox {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  getChannelData = async (req: Request, res: Response) => {
+    try {
+      const channelID = req.params.channelID
+      const pillChannel = await this.pillChannelRepository
+        .createQueryBuilder('pillChannel')
+        .leftJoinAndSelect('pillChannel.medicine', 'medicine')
+        .leftJoinAndSelect('pillChannel.times', 'time')
+        .where('pillChannel.id = :channelID', { channelID })
+        .getOne()
+      return res.json(pillChannel)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }

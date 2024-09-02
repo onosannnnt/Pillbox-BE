@@ -20,11 +20,14 @@ router.get('/logout', Middleware.isExist, AuthController.logout)
 router.get('/pillboxLogin/:emailOrUsername', AuthController.getUserData)
 router.get('/me', Middleware.isExist, AuthController.me)
 
-router.post('/addHistory', UserController.addHistory)
+// web frontend
 router.get('/getHistory', Middleware.isExist, UserController.getHistory)
-
-router.post('/addPillChannel', PillboxController.addPillChannel)
 router.get('/getPillChannels', Middleware.isExist, PillboxController.getPillChannel)
+router.get('/getPillChannel/:channelID', Middleware.isExist, PillboxController.getChannelData)
+
+// hardware
+router.post('/addHistory', UserController.addHistory)
+router.post('/addPillChannel', PillboxController.addPillChannel)
 router.get('/hardwareGetPillChannels/:userID', PillboxController.hardwareGetPillChannel)
 router.put('/userTakePill/:pillChannelID', PillboxController.takePill)
 
