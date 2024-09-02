@@ -30,5 +30,6 @@ router.post('/addHistory', UserController.addHistory)
 router.post('/addPillChannel', PillboxController.addPillChannel)
 router.get('/hardwareGetPillChannels/:userID', PillboxController.hardwareGetPillChannel)
 router.put('/userTakePill/:pillChannelID', PillboxController.takePill)
+router.get('/getMedicines', PillboxController.getMedicine)
 
 export default router

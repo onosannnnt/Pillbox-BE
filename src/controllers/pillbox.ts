@@ -3,10 +3,12 @@ import { Request, Response } from 'express'
 import { PillChannel } from '../models/pillChannel'
 import { USER_ID } from '../config/constance'
 import { Time } from '../models/time'
+import { Medicine } from '../models/medicine'
 
 export class Pillbox {
   private pillChannelRepository = AppDataSource.getRepository(PillChannel)
   private timeRepository = AppDataSource.getRepository(Time)
+  private medicineRepository = AppDataSource.getRepository(Medicine)
   constructor() {
     this.pillChannelRepository = AppDataSource.getRepository(PillChannel)
     this.timeRepository = AppDataSource.getRepository(Time)
@@ -98,6 +100,14 @@ export class Pillbox {
         .where('pillChannel.id = :channelID', { channelID })
         .getOne()
       return res.json(pillChannel)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  getMedicine = async (req: Request, res: Response) => {
+    try {
+      const medicine = await this.medicineRepository.find()
+      return res.json(medicine)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
