@@ -70,11 +70,11 @@ export class Pillbox {
     }
   }
   takePill = async (req: Request, res: Response) => {
-    const { pillChannelID } = req.params
+    const { channelID } = req.params
     try {
       const pillChannel = await this.pillChannelRepository.findOne({
         where: {
-          id: pillChannelID
+          id: channelID
         }
       })
       if (!pillChannel) {
