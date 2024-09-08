@@ -48,6 +48,9 @@ export class Pillbox {
         },
         relations: {
           medicine: true
+        },
+        order: {
+          channelIndex: 'ASC'
         }
       })
       return res.json(pillChannels)
