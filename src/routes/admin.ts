@@ -12,5 +12,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/addMedicine', Middleware.isExist, Middleware.isAdmin, AdminController.addMedicine)
+router.get('/getAllForgetHistory', Middleware.isExist, Middleware.isAdmin, AdminController.getAllForgetHistory)
+router.get('/getSingleForgetHistory', Middleware.isExist, Middleware.isAdmin, AdminController.getSingleForgetHistory)
 
 export default router
