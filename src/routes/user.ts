@@ -24,6 +24,7 @@ router.get('/me', Middleware.isExist, AuthController.me)
 router.get('/getHistory', Middleware.isExist, UserController.getHistory)
 router.get('/getPillChannels', Middleware.isExist, PillboxController.getPillChannel)
 router.get('/getPillChannel/:channelID', Middleware.isExist, PillboxController.getChannelData)
+router.get('/getForgetHistory', Middleware.isExist, UserController.getForgetHistory)
 
 // hardware
 router.post('/addHistory', UserController.addHistory)
