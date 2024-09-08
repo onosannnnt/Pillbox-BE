@@ -40,8 +40,11 @@ export class Admin {
     try {
       const logs = await this.logRepository
         .createQueryBuilder('log')
-        .groupBy('log.user')
-        .select('log.user')
+        .leftJoinAndSelect('log.user', 'user')
+        .groupBy('user.username')
+        .addGroupBy('log.user')
+        .select('user.username')
+        .addSelect('log.user', 'user')
         .addSelect('COUNT(log.user)', 'count')
         .where('log.task = :task', { task: 'forget' })
         .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 7)) })
