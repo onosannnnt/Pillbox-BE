@@ -22,7 +22,7 @@ export class Pillbox {
       pillChannel.user = userID
       pillChannel.medicine = medicineID
       pillChannel.amount = amount
-      pillChannel.Total = total
+      pillChannel.total = total
       pillChannel.amountPerTime = amountPerTime
       await this.pillChannelRepository.save(pillChannel)
       const times = time.map((time: any) => {

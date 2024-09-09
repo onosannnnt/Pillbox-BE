@@ -17,7 +17,7 @@ export class PillChannel {
   amount: number
 
   @Column()
-  Total: number
+  total: number
 
   @Column()
   amountPerTime: number
