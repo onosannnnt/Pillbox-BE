@@ -27,10 +27,15 @@ export class Admin {
     try {
       const logs = await this.logRepository
         .createQueryBuilder('log')
-        .leftJoinAndSelect('log.medicine', 'medicine')
+        .leftJoinAndSelect('log.user', 'user')
+        .groupBy('user.username')
+        .addGroupBy('log.user')
+        .select('user.username')
+        .addSelect('log.user', 'user')
+        .addSelect('COUNT(log.user)', 'count')
         .where('log.task = :task', { task: 'forget' })
         .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 7)) })
-        .getCount()
+        .getRawMany()
       return res.json(logs)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
