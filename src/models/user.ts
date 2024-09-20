@@ -9,6 +9,12 @@ export class User {
   })
   id: string
 
+  @Column({ nullable: true })
+  firstName: string
+
+  @Column({ nullable: true })
+  lastName: string
+
   @Column()
   email: string
 
