@@ -23,7 +23,7 @@ export class Admin {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
-  getAllForgetHistory = async (req: Request, res: Response) => {
+  getWeeklyForgotAllUser = async (req: Request, res: Response) => {
     try {
       const logs = await this.logRepository
         .createQueryBuilder('log')
@@ -34,7 +34,7 @@ export class Admin {
         .select('user.username')
         .addSelect('user.firstName', 'firstName')
         .addSelect('log.user', 'user')
-        .addSelect('COUNT(log.user)', 'count')
+        .addSelect('COUNT(log.user)', 'จำนวนครั้งที่ลืม')
         .where('log.task = :task', { task: 'forget' })
         .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 7)) })
         .getRawMany()
@@ -43,7 +43,7 @@ export class Admin {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
-  getSingleForgetHistory = async (req: Request, res: Response) => {
+  getAllForgetHistory = async (req: Request, res: Response) => {
     try {
       const logs = await this.logRepository
         .createQueryBuilder('log')
