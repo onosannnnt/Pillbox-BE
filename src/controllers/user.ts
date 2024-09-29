@@ -53,7 +53,7 @@ export class User {
         .leftJoinAndSelect('log.medicine', 'medicine')
         .where('log.user = :userID', { userID })
         .andWhere('log.task = :task', { task: 'forget' })
-        .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 7)) })
+        .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 6)) })
         .getMany()
       return res.json(logs)
     } catch (error) {
