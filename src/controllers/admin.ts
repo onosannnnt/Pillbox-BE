@@ -36,7 +36,7 @@ export class Admin {
         .addSelect('log.user', 'user')
         .addSelect('COUNT(log.user)', 'จำนวนครั้งที่ลืม')
         .where('log.task = :task', { task: 'forget' })
-        .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 7)) })
+        .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 6)) })
         .getRawMany()
       return res.json(logs)
     } catch (error) {
@@ -50,11 +50,12 @@ export class Admin {
         .leftJoinAndSelect('log.user', 'user')
         .groupBy('user.username')
         .addGroupBy('log.user')
+        .addGroupBy('user.firstName')
         .select('user.username')
+        .addSelect('user.firstName', 'firstName')
         .addSelect('log.user', 'user')
-        .addSelect('COUNT(log.user)', 'count')
+        .addSelect('COUNT(log.user)', 'forget')
         .where('log.task = :task', { task: 'forget' })
-        .andWhere('log.createdAt >= :date', { date: new Date(new Date().setDate(new Date().getDate() - 7)) })
         .getRawMany()
       return res.json(logs)
     } catch (error) {
