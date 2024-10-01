@@ -56,6 +56,29 @@ export class Admin {
         .addSelect('log.user', 'user')
         .addSelect('COUNT(log.user)', 'forget')
         .where('log.task = :task', { task: 'forget' })
+        .orderBy('forget', 'DESC')
+        .getRawMany()
+      logs.map((log) => {
+        log.forget = parseInt(log.forget)
+      })
+      return res.json(logs)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  getLatestActive = async (req: Request, res: Response) => {
+    try {
+      const logs = await this.logRepository
+        .createQueryBuilder('log')
+        .leftJoinAndSelect('log.user', 'user')
+        .groupBy('user.username')
+        .addGroupBy('log.user')
+        .addGroupBy('user.firstName')
+        .select('user.username')
+        .addSelect('user.firstName', 'firstName')
+        .addSelect('log.user', 'user')
+        .addSelect('MAX(log.createdAt)', 'latestActive')
+        .orderBy('MAX(log.createdAt)', 'DESC')
         .getRawMany()
       return res.json(logs)
     } catch (error) {
