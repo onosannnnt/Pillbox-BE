@@ -2,12 +2,16 @@ import { Request, Response } from 'express'
 import { AppDataSource } from '../data-source'
 import { Medicine } from '../models/medicine'
 import { LogHistory } from '../models/loghistory'
+import { User } from '../models/user'
 
 export class Admin {
   private medicineRepository = AppDataSource.getRepository(Medicine)
   private logRepository = AppDataSource.getRepository(LogHistory)
+  private userRepository = AppDataSource.getRepository(User)
   constructor() {
     this.medicineRepository = AppDataSource.getRepository(Medicine)
+    this.logRepository = AppDataSource.getRepository(LogHistory)
+    this.userRepository = AppDataSource.getRepository(User)
   }
   addMedicine = async (req: Request, res: Response) => {
     const { name, description, note, img } = req.body || ''
@@ -81,6 +85,16 @@ export class Admin {
         .orderBy('MAX(log.createdAt)', 'DESC')
         .getRawMany()
       return res.json(logs)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  getAllUser = async (req: Request, res: Response) => {
+    try {
+      const users = await this.userRepository.find({
+        where: { role: 'user' }
+      })
+      return res.json(users)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
