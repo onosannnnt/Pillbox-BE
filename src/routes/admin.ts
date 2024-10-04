@@ -16,5 +16,7 @@ router.get('/getWeeklyForgotAllUser', Middleware.isExist, Middleware.isAdmin, Ad
 router.get('/getAllForgetHistory', Middleware.isExist, Middleware.isAdmin, AdminController.getAllForgetHistory)
 router.get('/getLatestActive', Middleware.isExist, Middleware.isAdmin, AdminController.getLatestActive)
 router.get('/getAllUser', Middleware.isExist, Middleware.isAdmin, AdminController.getAllUser)
+router.get('/getUser/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUser)
+router.put('/editUser/:userID', Middleware.isExist, Middleware.isAdmin, AdminController.editUser)
 
 export default router

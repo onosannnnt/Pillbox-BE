@@ -99,4 +99,34 @@ export class Admin {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  getUser = async (req: Request, res: Response) => {
+    const { username } = req.params
+    try {
+      const user = await this.userRepository.findOne({
+        where: { username: username }
+      })
+      return res.json(user)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  editUser = async (req: Request, res: Response) => {
+    const { firstName, lastName, email, lineID, username, numberOfPillChannels } = req.body || ''
+    const userID = req.params.userID
+    try {
+      const user = await this.userRepository.findOne({
+        where: { id: userID }
+      })
+      user.firstName = firstName
+      user.lastName = lastName
+      user.email = email
+      user.lineID = lineID
+      user.username = username
+      user.numberOfPillChannels = numberOfPillChannels
+      await this.userRepository.save(user)
+      return res.json({ message: 'แก้ไขข้อมูลผู้ใช้สำเร็จ' })
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }
