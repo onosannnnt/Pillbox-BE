@@ -92,7 +92,8 @@ export class Admin {
   getAllUser = async (req: Request, res: Response) => {
     try {
       const users = await this.userRepository.find({
-        where: { role: 'user' }
+        where: { role: 'user' },
+        order: { firstName: 'ASC', lastName: 'ASC', username: 'ASC' }
       })
       return res.json(users)
     } catch (error) {
