@@ -18,5 +18,6 @@ router.get('/getLatestActive', Middleware.isExist, Middleware.isAdmin, AdminCont
 router.get('/getAllUser', Middleware.isExist, Middleware.isAdmin, AdminController.getAllUser)
 router.get('/getUser/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUser)
 router.put('/editUser/:userID', Middleware.isExist, Middleware.isAdmin, AdminController.editUser)
+router.get('/getUserTotalLog/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUserTotalLog)
 
 export default router

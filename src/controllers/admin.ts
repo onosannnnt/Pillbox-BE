@@ -129,4 +129,20 @@ export class Admin {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  getUserTotalLog = async (req: Request, res: Response) => {
+    const { username } = req.params
+    try {
+      const logs = await this.logRepository
+        .createQueryBuilder('log')
+        .leftJoinAndSelect('log.user', 'user')
+        .groupBy('log.task')
+        .select('log.task')
+        .addSelect('COUNT(log.task)', 'total')
+        .where('user.username = :username', { username: username })
+        .getRawMany()
+      return res.json(logs)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }
