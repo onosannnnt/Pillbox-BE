@@ -3,16 +3,21 @@ import { AppDataSource } from '../data-source'
 import { Medicine } from '../models/medicine'
 import { LogHistory } from '../models/loghistory'
 import { User } from '../models/user'
+import { PillChannel } from '../models/pillChannel'
 
 export class Admin {
   private medicineRepository = AppDataSource.getRepository(Medicine)
   private logRepository = AppDataSource.getRepository(LogHistory)
   private userRepository = AppDataSource.getRepository(User)
+  private PillChannelRepository = AppDataSource.getRepository(PillChannel)
+
   constructor() {
     this.medicineRepository = AppDataSource.getRepository(Medicine)
     this.logRepository = AppDataSource.getRepository(LogHistory)
     this.userRepository = AppDataSource.getRepository(User)
+    this.PillChannelRepository = AppDataSource.getRepository(PillChannel)
   }
+
   addMedicine = async (req: Request, res: Response) => {
     const { name, description, note, img } = req.body || ''
     try {
@@ -142,6 +147,27 @@ export class Admin {
         .where('user.username = :username', { username: username })
         .getRawMany()
       return res.json(logs)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  getUserPillChannel = async (req: Request, res: Response) => {
+    const { username } = req.params
+    try {
+      const pillChannels = await this.PillChannelRepository.find({
+        where: {
+          user: {
+            username: username
+          }
+        },
+        relations: {
+          medicine: true
+        },
+        order: {
+          channelIndex: 'ASC'
+        }
+      })
+      return res.json(pillChannels)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
