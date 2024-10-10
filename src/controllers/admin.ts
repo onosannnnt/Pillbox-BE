@@ -172,4 +172,25 @@ export class Admin {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  getUserHistory = async (req: Request, res: Response) => {
+    const { username } = req.params
+    try {
+      const logs = await this.logRepository.find({
+        where: {
+          user: {
+            username: username
+          }
+        },
+        relations: {
+          medicine: true
+        },
+        order: {
+          createdAt: 'DESC'
+        }
+      })
+      return res.json(logs)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }

@@ -20,5 +20,6 @@ router.get('/getUser/:username', Middleware.isExist, Middleware.isAdmin, AdminCo
 router.put('/editUser/:userID', Middleware.isExist, Middleware.isAdmin, AdminController.editUser)
 router.get('/getUserTotalLog/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUserTotalLog)
 router.get('/getUserPillChannel/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUserPillChannel)
+router.get('/getUserHistory/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUserHistory)
 
 export default router
