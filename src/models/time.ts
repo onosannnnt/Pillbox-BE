@@ -11,6 +11,6 @@ export class Time {
   @Column()
   time: string
 
-  @ManyToOne(() => PillChannel, (pillChannel) => pillChannel.times)
+  @ManyToOne(() => PillChannel, (pillChannel) => pillChannel.times, { onDelete: 'CASCADE' })
   pillChannel: PillChannel
 }

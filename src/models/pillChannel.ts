@@ -22,7 +22,7 @@ export class PillChannel {
   @Column()
   amountPerTime: number
 
-  @OneToMany(() => Time, (time) => time.pillChannel)
+  @OneToMany(() => Time, (time) => time.pillChannel, { onDelete: 'CASCADE' })
   times: Time[]
 
   @ManyToOne(() => User, (user) => user.pillChannels)
