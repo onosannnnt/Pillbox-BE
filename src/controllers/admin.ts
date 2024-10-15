@@ -193,4 +193,12 @@ export class Admin {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  getMedicines = async (req: Request, res: Response) => {
+    try {
+      const medicines = await this.medicineRepository.find()
+      return res.json(medicines)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }
