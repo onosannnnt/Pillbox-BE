@@ -14,7 +14,8 @@ app.use(cookieParser())
 const origin = [
   'https://pillbox-frontend.ialwh0.easypanel.host',
   'https://pillbox-frontend.ialwh0.easypanel.host/',
-  'https://pillbox.santijit.dev/'
+  'https://pillbox.santijit.dev/',
+  'https://pillbox.santijit.dev'
 ]
 app.use(
   cors({
