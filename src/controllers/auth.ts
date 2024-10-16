@@ -14,7 +14,7 @@ export class Auth {
   }
 
   getUserData = async (req: Request, res: Response) => {
-    const { emailOrUsername } = req.body
+    const { emailOrUsername } = req.params
     try {
       const user = await this.userRepository.findOne({
         select: ['id', 'email', 'username', 'role', 'lineID', 'numberOfPillChannels'],
