@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 
-const origin = ['https://pillbox-frontend.ialwh0.easypanel.host/', 'https://pillbox-frontend.ialwh0.easypanel.host/']
+const origin = ['https://pillbox-frontend.ialwh0.easypanel.host', 'https://pillbox-frontend.ialwh0.easypanel.host/']
 app.use(
   cors({
     origin: origin,
