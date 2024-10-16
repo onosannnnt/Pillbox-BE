@@ -88,7 +88,7 @@ export class Auth {
         id: user.id
       }
       const token = jwt.sign(payload, jwtSecret, { algorithm: 'HS256' })
-      return res.cookie('token', token, cookiesConfig).json({ message: 'สร้างบัญชีผู้ใช้สำเร็จ' })
+      return res.cookie('token', token, cookiesConfig).json({ message: 'สร้างบัญชีผู้ใช้สำเร็จ' }).status(201)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
