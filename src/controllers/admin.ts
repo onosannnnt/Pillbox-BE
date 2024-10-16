@@ -201,4 +201,43 @@ export class Admin {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  getMedicine = async (req: Request, res: Response) => {
+    const { medicineID } = req.params
+    try {
+      const medicine = await this.medicineRepository.findOne({
+        where: { id: medicineID }
+      })
+      return res.json(medicine)
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  editMedicine = async (req: Request, res: Response) => {
+    const { name, description, note, img } = req.body || ''
+    const medicineID = req.params.medicineID
+    try {
+      const medicine = await this.medicineRepository.findOne({
+        where: { id: medicineID }
+      })
+      medicine.name = name
+      medicine.description = description
+      medicine.note = note
+      medicine.img = img
+      await this.medicineRepository.save(medicine)
+      return res.json({ message: 'แก้ไขข้อมูลยาสำเร็จ' })
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
+  deleteMedicine = async (req: Request, res: Response) => {
+    const { medicineID } = req.params
+    try {
+      await this.medicineRepository.delete({
+        id: medicineID
+      })
+      return res.json({ message: 'ลบข้อมูลยาสำเร็จ' })
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }

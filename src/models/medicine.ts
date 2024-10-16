@@ -21,9 +21,9 @@ export class Medicine {
   @Column()
   img: string
 
-  @OneToMany(() => LogHistory, (logHistory) => logHistory.medicine)
+  @OneToMany(() => LogHistory, (logHistory) => logHistory.medicine, { onDelete: 'CASCADE' })
   logHistories: LogHistory[]
 
-  @OneToMany(() => PillChannel, (pillChannel) => pillChannel.medicine)
+  @OneToMany(() => PillChannel, (pillChannel) => pillChannel.medicine, { onDelete: 'CASCADE' })
   pillChannels: PillChannel[]
 }

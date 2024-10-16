@@ -12,6 +12,7 @@ export class Pillbox {
   constructor() {
     this.pillChannelRepository = AppDataSource.getRepository(PillChannel)
     this.timeRepository = AppDataSource.getRepository(Time)
+    this.medicineRepository = AppDataSource.getRepository(Medicine)
   }
 
   addPillChannel = async (req: Request, res: Response) => {

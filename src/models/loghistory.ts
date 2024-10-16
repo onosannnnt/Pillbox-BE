@@ -18,6 +18,6 @@ export class LogHistory {
   @ManyToOne(() => User, (user) => user.logHistories)
   user: User
 
-  @ManyToOne(() => Medicine, (medicine) => medicine.logHistories)
+  @ManyToOne(() => Medicine, (medicine) => medicine.logHistories, { onDelete: 'CASCADE' })
   medicine: Medicine
 }

@@ -28,6 +28,6 @@ export class PillChannel {
   @ManyToOne(() => User, (user) => user.pillChannels)
   user: User
 
-  @ManyToOne(() => Medicine, (medicine) => medicine.pillChannels)
+  @ManyToOne(() => Medicine, (medicine) => medicine.pillChannels, { onDelete: 'CASCADE' })
   medicine: Medicine
 }

@@ -22,5 +22,8 @@ router.get('/getUserTotalLog/:username', Middleware.isExist, Middleware.isAdmin,
 router.get('/getUserPillChannel/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUserPillChannel)
 router.get('/getUserHistory/:username', Middleware.isExist, Middleware.isAdmin, AdminController.getUserHistory)
 router.get('/getMedicines', Middleware.isExist, Middleware.isAdmin, AdminController.getMedicines)
+router.get('/getMedicine/:medicineID', Middleware.isExist, Middleware.isAdmin, AdminController.getMedicine)
+router.put('/editMedicine/:medicineID', Middleware.isExist, Middleware.isAdmin, AdminController.editMedicine)
+router.delete('/deleteMedicine/:medicineID', Middleware.isExist, Middleware.isAdmin, AdminController.deleteMedicine)
 
 export default router
