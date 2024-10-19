@@ -195,7 +195,7 @@ export class Admin {
   }
   getMedicines = async (req: Request, res: Response) => {
     try {
-      const medicines = await this.medicineRepository.find()
+      const medicines = await this.medicineRepository.find({ order: { name: 'ASC' } })
       return res.json(medicines)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
