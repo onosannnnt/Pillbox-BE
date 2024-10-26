@@ -22,6 +22,9 @@ export class PillChannel {
   @Column()
   amountPerTime: number
 
+  @Column()
+  isAlert: boolean
+
   @OneToMany(() => Time, (time) => time.pillChannel, { onDelete: 'CASCADE' })
   times: Time[]
 
