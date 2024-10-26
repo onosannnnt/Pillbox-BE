@@ -22,7 +22,7 @@ export class PillChannel {
   @Column()
   amountPerTime: number
 
-  @Column()
+  @Column({ default: false })
   isAlert: boolean
 
   @OneToMany(() => Time, (time) => time.pillChannel, { onDelete: 'CASCADE' })

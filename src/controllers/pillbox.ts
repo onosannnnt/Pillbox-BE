@@ -4,6 +4,7 @@ import { PillChannel } from '../models/pillChannel'
 import { USER_ID } from '../config/constance'
 import { Time } from '../models/time'
 import { Medicine } from '../models/medicine'
+import { sendLineMessage } from '../libs/lineMessagine'
 
 export class Pillbox {
   private pillChannelRepository = AppDataSource.getRepository(PillChannel)
@@ -77,22 +78,29 @@ export class Pillbox {
   takePill = async (req: Request, res: Response) => {
     const { channelID } = req.params
     try {
-      const pillChannel = await this.pillChannelRepository.findOne({
-        where: {
-          id: channelID
-        }
-      })
+      const pillChannel = await this.pillChannelRepository
+        .createQueryBuilder('pillChannel')
+        .leftJoinAndSelect('pillChannel.medicine', 'medicine')
+        .leftJoinAndSelect('pillChannel.times', 'time')
+        .leftJoinAndSelect('pillChannel.user', 'user')
+        .where('pillChannel.id = :channelID', { channelID })
+        .getOne()
       if (!pillChannel) {
         return res.status(404).json({ message: 'ไม่พบช่องเก็บยา' })
       }
-      if (pillChannel.amount === 0) {
-        return res.status(400).json({ message: 'ยาหมดแล้ว' })
-      }
       pillChannel.amount = pillChannel.amount - pillChannel.amountPerTime
       await this.pillChannelRepository.save(pillChannel)
-      return res.json({ message: 'เอายาออกจากช่องเก็บยาสำเร็จ' })
+      if (pillChannel.amount <= 0) {
+        await this.pillChannelRepository.remove(pillChannel)
+        await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} หมดแล้ว กรุณาเติมยา`)
+        return res.json({ message: 'ยาหมดแล้ว', pillChannel })
+      }
+      if (pillChannel.amount <= pillChannel.amountPerTime * pillChannel.times.length * 2) {
+        await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} ใกล้หมดแล้ว กรุณาเติมยา`)
+      }
+      return res.json({ message: 'ผู้ใข้งานหยิบยาออกไปแล้ว' })
     } catch (error) {
-      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error })
     }
   }
   getChannelData = async (req: Request, res: Response) => {
