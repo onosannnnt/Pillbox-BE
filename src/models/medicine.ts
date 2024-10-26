@@ -12,6 +12,9 @@ export class Medicine {
   @Column()
   name: string
 
+  @Column({ unique: true, nullable: true })
+  medicalName: string
+
   @Column()
   description: string
 

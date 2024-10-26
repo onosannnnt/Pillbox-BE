@@ -213,13 +213,14 @@ export class Admin {
     }
   }
   editMedicine = async (req: Request, res: Response) => {
-    const { name, description, note, img } = req.body || ''
+    const { name, medicalName, description, note, img } = req.body || ''
     const medicineID = req.params.medicineID
     try {
       const medicine = await this.medicineRepository.findOne({
         where: { id: medicineID }
       })
       medicine.name = name
+      medicine.medicalName = medicalName
       medicine.description = description
       medicine.note = note
       medicine.img = img
