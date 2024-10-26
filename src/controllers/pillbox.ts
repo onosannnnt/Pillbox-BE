@@ -171,4 +171,23 @@ export class Pillbox {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  setAlert = async (req: Request, res: Response) => {
+    const { channelID } = req.params
+    const { isAlert } = req.body
+    try {
+      const pillChannel = await this.pillChannelRepository.findOne({
+        where: {
+          id: channelID
+        }
+      })
+      if (!pillChannel) {
+        return res.status(404).json({ message: 'ไม่พบช่องเก็บยา' })
+      }
+      pillChannel.isAlert = isAlert
+      await this.pillChannelRepository.save(pillChannel)
+      return res.json({ message: 'เซ็ทแจ้งเตือนสำเร็จ' })
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }
