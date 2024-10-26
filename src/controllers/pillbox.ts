@@ -134,4 +134,33 @@ export class Pillbox {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
+  updatePillChannel = async (req: Request, res: Response) => {
+    const { channelIndex, amount, total, amountPerTime, time } = req.body
+    const channelID = req.params.channelID
+    try {
+      const pillChannel = await this.pillChannelRepository.findOne({
+        where: {
+          id: channelID
+        }
+      })
+      if (!pillChannel) {
+        return res.status(404).json({ message: 'ไม่พบช่องเก็บยา' })
+      }
+      pillChannel.channelIndex = channelIndex
+      pillChannel.amount = amount
+      pillChannel.total = total
+      pillChannel.amountPerTime = amountPerTime
+      await this.pillChannelRepository.save(pillChannel)
+      const times = time.map((time: any) => {
+        const newTime = new Time()
+        newTime.time = time
+        newTime.pillChannel = pillChannel
+        return newTime
+      })
+      await this.timeRepository.save(times)
+      return res.json({ message: 'แก้ไขช่องเก็บยาสำเร็จ' })
+    } catch (error) {
+      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+    }
+  }
 }
