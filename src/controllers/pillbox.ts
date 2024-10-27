@@ -159,6 +159,7 @@ export class Pillbox {
       pillChannel.total = total
       pillChannel.amountPerTime = amountPerTime
       await this.pillChannelRepository.save(pillChannel)
+      await this.timeRepository.delete({ pillChannel })
       const times = time.map((time: any) => {
         const newTime = new Time()
         newTime.time = time
