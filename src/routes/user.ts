@@ -34,6 +34,6 @@ router.put('/userTakePill/:channelID', PillboxController.takePill)
 router.get('/getMedicines', PillboxController.getMedicine)
 router.delete('/deletePillChannel/:channelID', PillboxController.deletePillChannel)
 router.put('/updatePillChannel/:channelID', PillboxController.updatePillChannel)
-router.post('/setAlert/:channelID', PillboxController.setAlert)
+router.put('/setAlert/:channelID', PillboxController.setAlert)
 
 export default router
