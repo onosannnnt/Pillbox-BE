@@ -13,7 +13,7 @@ export class Medicine {
   name: string
 
   @Column({ unique: true, nullable: true })
-  medicalName: string
+  medicalname: string
 
   @Column()
   description: string

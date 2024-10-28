@@ -19,13 +19,14 @@ export class Admin {
   }
 
   addMedicine = async (req: Request, res: Response) => {
-    const { name, description, note, img } = req.body || ''
+    const { name, description, note, img, medicalName } = req.body || ''
     try {
       const medicine = new Medicine()
       medicine.name = name
       medicine.description = description
       medicine.note = note
       medicine.img = img
+      medicine.medicalname = medicalName
       await this.medicineRepository.save(medicine)
       return res.json({ message: 'เพิ่มข้อมูลยาสำเร็จ' })
     } catch (error) {
@@ -220,7 +221,7 @@ export class Admin {
         where: { id: medicineID }
       })
       medicine.name = name
-      medicine.medicalName = medicalName
+      medicine.medicalname = medicalName
       medicine.description = description
       medicine.note = note
       medicine.img = img
