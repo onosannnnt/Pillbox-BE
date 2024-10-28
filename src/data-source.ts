@@ -7,6 +7,6 @@ export const AppDataSource = new DataSource({
   url: databaseUrl,
   logging: false,
   entities: ['src/models/**/*.ts'],
-  migrations: [],
+  migrations: ['src/migration/**/*.ts'],
   subscribers: []
 })
