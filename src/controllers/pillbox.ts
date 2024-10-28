@@ -119,7 +119,7 @@ export class Pillbox {
   }
   getMedicine = async (req: Request, res: Response) => {
     try {
-      const medicine = await this.medicineRepository.find({ order: { name: 'ASC' } })
+      const medicine = await this.medicineRepository.find({ order: { name: 'ASC', medicalname: 'ASC' } })
       return res.json(medicine)
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
