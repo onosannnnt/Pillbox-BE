@@ -44,7 +44,7 @@ AppDataSource.initialize()
       console.log(`Database connected to ${host}`)
       console.log(`Server started at http://localhost:${port}`)
       cron.schedule(
-        '6 2 * * *',
+        '20 2 * * *',
         () => {
           const pillbox = new Pillbox()
           pillbox.resetTime()
