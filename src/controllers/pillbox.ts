@@ -109,6 +109,7 @@ export class Pillbox {
           pillChannel: { id: channelID }
         }
       })
+      console.log(new Date(Date.now() - 10 * 60000).toTimeString().slice(0, 5), new Date().toTimeString().slice(0, 5))
       if (times.length === 0) {
         return res.json({ message: 'ยังไม่ถึงเวลาทานยา' })
       }
@@ -117,7 +118,7 @@ export class Pillbox {
         await this.timeRepository.save(time)
       })
       await this.pillChannelRepository.save(pillChannel)
-      console.log(new Date(Date.now() - 10 * 60000).toTimeString().slice(0, 5), new Date().toTimeString().slice(0, 5))
+
       return res.json({ message: 'ผู้ใข้งานหยิบยาออกไปแล้ว', times })
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error })
