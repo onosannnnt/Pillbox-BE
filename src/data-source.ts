@@ -4,14 +4,9 @@ import { databaseUrl, dbName, dbPassword, dbPort, dbUser, host } from './config/
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: host,
-  port: dbPort,
-  username: dbUser,
-  password: dbPassword,
-  database: dbName,
-  synchronize: true,
+  url: databaseUrl,
   logging: false,
   entities: ['src/models/**/*.ts'],
-  // migrations: ['src/migration/**/*.ts'],
+  migrations: ['src/migration/**/*.ts'],
   subscribers: []
 })
