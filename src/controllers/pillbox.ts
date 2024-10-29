@@ -103,15 +103,15 @@ export class Pillbox {
       const times = await this.timeRepository.find({
         where: {
           time: Between(
-            new Date(Date.now() - 1 * 60000).toTimeString().slice(0, 5),
-            new Date(Date.now() + 5 * 60000).toTimeString().slice(0, 5)
+            new Date(Date.now() - 1 * 60000 + 7 * 60 * 60 * 1000).toTimeString().slice(0, 5),
+            new Date(Date.now() + 5 * 60000 + 7 * 60 * 60 * 1000).toTimeString().slice(0, 5)
           ),
           pillChannel: { id: channelID }
         }
       })
       console.log(
-        new Date(Date.now() - 1 * 60000).toTimeString().slice(0, 5),
-        new Date(Date.now() + 5 * 60000).toTimeString().slice(0, 5)
+        new Date(Date.now() - 1 * 60000 + 7 * 60 * 60 * 1000).toTimeString().slice(0, 5),
+        new Date(Date.now() + 5 * 60000 + 7 * 60 * 60 * 1000).toTimeString().slice(0, 5)
       )
       if (times.length === 0) {
         return res.json({ message: 'ยังไม่ถึงเวลาทานยา' })
