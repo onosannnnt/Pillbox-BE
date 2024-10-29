@@ -43,10 +43,14 @@ AppDataSource.initialize()
     app.listen(port, () => {
       console.log(`Database connected to ${host}`)
       console.log(`Server started at http://localhost:${port}`)
-      cron.schedule('0 0 * * *', () => {
-        const pillbox = new Pillbox()
-        pillbox.resetTime()
-      })
+      cron.schedule(
+        '6 2 * * *',
+        () => {
+          const pillbox = new Pillbox()
+          pillbox.resetTime()
+        },
+        { scheduled: true, timezone: 'Asia/Bangkok' }
+      )
     })
   })
   .catch((error) => console.log(error))
