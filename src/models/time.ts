@@ -11,6 +11,9 @@ export class Time {
   @Column()
   time: string
 
+  @Column({ default: false })
+  isTaken: boolean
+
   @ManyToOne(() => PillChannel, (pillChannel) => pillChannel.times, { onDelete: 'CASCADE' })
   pillChannel: PillChannel
 }

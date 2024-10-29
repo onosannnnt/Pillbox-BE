@@ -5,6 +5,8 @@ import { USER_ID } from '../config/constance'
 import { Time } from '../models/time'
 import { Medicine } from '../models/medicine'
 import { sendLineMessage } from '../libs/lineMessagine'
+import { Between } from 'typeorm'
+import { time } from 'console'
 
 export class Pillbox {
   private pillChannelRepository = AppDataSource.getRepository(PillChannel)
@@ -26,12 +28,12 @@ export class Pillbox {
       pillChannel.amount = amount
       pillChannel.total = total
       pillChannel.amountPerTime = amountPerTime
-      pillChannel.isAlert = false
       await this.pillChannelRepository.save(pillChannel)
       const times = time.map((time: any) => {
         const newTime = new Time()
         newTime.time = time
         newTime.pillChannel = pillChannel
+        newTime.isTaken = false
         return newTime
       })
       await this.timeRepository.save(times)
@@ -89,16 +91,33 @@ export class Pillbox {
         return res.status(404).json({ message: 'ไม่พบช่องเก็บยา' })
       }
       pillChannel.amount = pillChannel.amount - pillChannel.amountPerTime
-      await this.pillChannelRepository.save(pillChannel)
+
       if (pillChannel.amount <= 0) {
         await this.pillChannelRepository.remove(pillChannel)
-        await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} หมดแล้ว กรุณาเติมยา`)
+        // await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} หมดแล้ว กรุณาเติมยา`)
         return res.json({ message: 'ยาหมดแล้ว', pillChannel })
       }
       if (pillChannel.amount <= pillChannel.amountPerTime * pillChannel.times.length * 2) {
-        await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} ใกล้หมดแล้ว กรุณาเติมยา`)
+        // await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} ใกล้หมดแล้ว กรุณาเติมยา`)
       }
-      return res.json({ message: 'ผู้ใข้งานหยิบยาออกไปแล้ว' })
+      const times = await this.timeRepository.find({
+        where: {
+          time: Between(
+            new Date(Date.now() - 10 * 60000).toTimeString().slice(0, 5),
+            new Date().toTimeString().slice(0, 5)
+          ),
+          pillChannel: { id: channelID }
+        }
+      })
+      if (times.length === 0) {
+        return res.json({ message: 'ยังไม่ถึงเวลาทานยา' })
+      }
+      times.forEach(async (time) => {
+        time.isTaken = true
+        await this.timeRepository.save(time)
+      })
+      await this.pillChannelRepository.save(pillChannel)
+      return res.json({ message: 'ผู้ใข้งานหยิบยาออกไปแล้ว', times })
     } catch (error) {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error })
     }
@@ -164,6 +183,7 @@ export class Pillbox {
         const newTime = new Time()
         newTime.time = time
         newTime.pillChannel = pillChannel
+        newTime.isTaken = false
         return newTime
       })
       await this.timeRepository.save(times)
@@ -172,23 +192,16 @@ export class Pillbox {
       return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
-  setAlert = async (req: Request, res: Response) => {
-    const { channelID } = req.params
-    const { isAlert } = req.body
+  resetTime = async () => {
     try {
-      const pillChannel = await this.pillChannelRepository.findOne({
-        where: {
-          id: channelID
-        }
+      const times = await this.timeRepository.find()
+      times.forEach(async (time) => {
+        time.isTaken = false
+        await this.timeRepository.save(time)
       })
-      if (!pillChannel) {
-        return res.status(404).json({ message: 'ไม่พบช่องเก็บยา' })
-      }
-      pillChannel.isAlert = isAlert
-      await this.pillChannelRepository.save(pillChannel)
-      return res.json({ message: 'เซ็ทแจ้งเตือนสำเร็จ' })
+      return console.log({ message: 'รีเซ็ตเวลาสำเร็จ' })
     } catch (error) {
-      return res.status(500).json({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
+      return console.log({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
   }
 }

@@ -4,9 +4,11 @@ import * as express from 'express'
 import * as cors from 'cors'
 import * as cookieParser from 'cookie-parser'
 import * as line from '@line/bot-sdk'
+import * as cron from 'node-cron'
 
 import userRouter from './routes/user'
 import adminRouter from './routes/admin'
+import { Pillbox } from './controllers/pillbox'
 
 export const lineClient = new line.messagingApi.MessagingApiClient({
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
@@ -41,6 +43,10 @@ AppDataSource.initialize()
     app.listen(port, () => {
       console.log(`Database connected to ${host}`)
       console.log(`Server started at http://localhost:${port}`)
+      cron.schedule('0 0 * * *', () => {
+        const pillbox = new Pillbox()
+        pillbox.resetTime()
+      })
     })
   })
   .catch((error) => console.log(error))
