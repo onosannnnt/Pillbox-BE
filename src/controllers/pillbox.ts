@@ -94,11 +94,11 @@ export class Pillbox {
 
       if (pillChannel.amount <= 0) {
         await this.pillChannelRepository.remove(pillChannel)
-        // await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} หมดแล้ว กรุณาเติมยา`)
+        await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} หมดแล้ว กรุณาเติมยา`)
         return res.json({ message: 'ยาหมดแล้ว', pillChannel })
       }
       if (pillChannel.amount <= pillChannel.amountPerTime * pillChannel.times.length * 2) {
-        // await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} ใกล้หมดแล้ว กรุณาเติมยา`)
+        await sendLineMessage(pillChannel.user.lineID, `ยา ${pillChannel.medicine.name} ใกล้หมดแล้ว กรุณาเติมยา`)
       }
       const times = await this.timeRepository.find({
         where: {
