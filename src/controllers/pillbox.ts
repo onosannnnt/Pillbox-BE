@@ -201,7 +201,21 @@ export class Pillbox {
         time.isTaken = false
         await this.timeRepository.save(time)
       })
-      return console.log({ message: 'รีเซ็ตเวลาสำเร็จ' })
+      return console.log({
+        message: 'รีเซ็ตเวลาสำเร็จ',
+        Date: new Date().toLocaleDateString('en-US', {
+          timeZone: 'Asia/Bangkok',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        }),
+        Time: new Date().toLocaleTimeString('en-US', {
+          timeZone: 'Asia/Bangkok',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })
+      })
     } catch (error) {
       return console.log({ message: 'มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง', error: error.message })
     }
