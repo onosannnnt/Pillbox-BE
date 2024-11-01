@@ -163,7 +163,7 @@ export class Pillbox {
     }
   }
   updatePillChannel = async (req: Request, res: Response) => {
-    const { channelIndex, amount, total, amountPerTime, time } = req.body
+    const { channelIndex, medicineID, amount, total, amountPerTime, time } = req.body
     const channelID = req.params.channelID
     try {
       const pillChannel = await this.pillChannelRepository.findOne({
@@ -175,6 +175,7 @@ export class Pillbox {
         return res.status(404).json({ message: 'ไม่พบช่องเก็บยา' })
       }
       pillChannel.channelIndex = channelIndex
+      pillChannel.medicine = medicineID
       pillChannel.amount = amount
       pillChannel.total = total
       pillChannel.amountPerTime = amountPerTime
