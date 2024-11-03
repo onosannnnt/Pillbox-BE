@@ -44,10 +44,18 @@ AppDataSource.initialize()
       console.log(`Database connected to ${host}`)
       console.log(`Server started at http://localhost:${port}`)
       cron.schedule(
-        '30 0 * * *',
+        '*/3 * * * * *',
         () => {
           const pillbox = new Pillbox()
           pillbox.resetTime()
+          console.log(
+            new Date().toLocaleTimeString('en-US', {
+              timeZone: 'Asia/Bangkok',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit'
+            })
+          )
         },
         { scheduled: true, timezone: 'Asia/Bangkok' }
       )
